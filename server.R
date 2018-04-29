@@ -42,11 +42,27 @@ shinyServer(function(input, output) {
  
   output$mymap <- renderLeaflet({
     crime_filter = crime %>%
-      filter(., code == input$selected)
+      filter(., ofns_desc == input$selected)
     
     leaflet(crime_filter) %>%
-      addProviderTiles("Esri.WorldStreetMap") %>%
+      addProviderTiles("Esri.WorldImagery") %>%
       addCircles(~longitude, ~latitude)
   })
+  
+  output$clusterMap <- renderLeaflet({
+    leaflet(crime) %>%
+      addTiles() %>%
+      addMarkers(~longitude, ~latitude, clusterOptions = markerClusterOptions())
+  })
+  
+  output$graph <- renderPlot({
+    ggplot(data = crime, aes(x = crime$boro_nm, y = crime$code)) +
+      geom_bar(aes(fill = crime$boro_nm), stat = 'identity') +
+      labs(title = 'Crimes per Borough',
+           x = 'Borough',
+           y = 'Crime by desc code')
+  })
+  
 }
 )
+
