@@ -29,33 +29,5 @@ crime_time = crime %>%
   group_by(., cmplnt_fr_tm) %>%
   summarise(sum(code))
 
-choice <- unique(crime$code)
-
-
-# #Bar chart of crimes committed per borough
-# boro_plot = ggplot(data = crime, aes(x = crime$boro_nm, y = crime$code)) +
-#   geom_bar(stat = 'identity') +
-# labs(title = 'Crimes per Borough',
-#        x = 'Borough',
-#        y = 'Crime by desc code') +
-#   scale_color_brewer(palette = 'Blues')
-# 
-# # Plot of
-# 
-# 
-# #Selecting the top 20 crimes
-# top_crimes <- crime %>%
-#   group_by(code) %>%
-#   summarise(count=n()) %>%
-#   select(crime$code) %>%
-#   top_n(20, count)
-# 
-# #Bar chart of top 20 crimes
-# top_crimes_plot = ggplot(data = top_crimes, aes(x = top_crimes$code, y = top_crimes$count)) +
-#   geom_bar(stat = 'identity') +
-#   labs(title = 'Top 20 Crimes',
-#        x = 'Offense Code',
-#        y = 'Offense Count') +
-#   scale_color_brewer(palette = 'Blues')
-
+choice <- unique(crime$ofns_desc)
 
