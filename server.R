@@ -42,11 +42,40 @@ shinyServer(function(input, output) {
  
   output$mymap <- renderLeaflet({
     crime_filter = crime %>%
-      filter(., code == input$selected)
+      filter(., ofns_desc == input$selected)
     
     leaflet(crime_filter) %>%
-      addProviderTiles("Esri.WorldStreetMap") %>%
-      addCircles(~longitude, ~latitude)
+      addProviderTiles("Hydda.Full") %>% #Esri.WorldImagery, Hydda.Full
+      addCircleMarkers(~longitude, ~latitude, opacity = 0.001, color = 'red', radius = 5)
   })
+  
+  output$clustermap <- renderLeaflet({
+    leaflet(crime) %>%
+      addTiles() %>%
+      addProviderTiles("Hydda.Full") %>%
+      addMarkers(~longitude, ~latitude, clusterOptions = markerClusterOptions())
+  })
+  
+  output$graph1 <- renderPlot({
+    ggplot(data = crime, aes(x = crime$boro_nm, y = crime$code)) +
+      geom_bar(aes(fill = crime$boro_nm), stat = 'identity') +
+      labs(title = 'Crimes per Borough',
+           x = 'Borough',
+           y = 'Crime by desc code')
+  })
+  
+  output$graph2 <- renderPlot({
+    ggplot(data = crime_df, aes(x=crime_df$boro_nm, y=crime_df$pop_sm))+
+      geom_bar(stat = 'identity', aes(fill =crime_df$boro_nm)) + 
+      labs(title = 'Borough Population Per Square Mile',
+           x = 'Borough',
+           y = 'Population Per Square Mile')
+  })
+  
+  output$mytable = DT::renderDataTable({
+    crime_table
+  })
+
 }
 )
+
