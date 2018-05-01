@@ -9,6 +9,8 @@ library(data.table)
 #read in file
 crime_dt = read.csv('c:\\users\\chris\\csv files\\nypd_crime_2016_1.csv')
 
+crime_table = data.table::data.table(crime)
+
 #Put column names in lowercase
 colnames(crime_dt) = tolower(colnames(crime_dt))
 
@@ -25,37 +27,16 @@ new_df = data.frame(ofns_desc = offense_descriptions, code = 1:length(offense_de
 #Join old and new df's
 crime = left_join(crime_dt, new_df)
 
+pop_data = data.frame(boro_nm = c('BRONX', 'BROOKLYN','MANHATTAN', 'QUEENS', 'STATEN ISLAND'),
+                      pop  = c(1455720, 2629150, 1643734, 2333054, 476015),
+                      sq_mi= c(42, 71, 22.83, 109, 58.5),
+                      pop_sm = c(34653, 37137, 72033, 21460, 8112))
+
+crime_df = left_join(crime, pop_data)
+
 crime_time = crime %>%
   group_by(., cmplnt_fr_tm) %>%
   summarise(sum(code))
 
-choice <- unique(crime$code)
-
-
-# #Bar chart of crimes committed per borough
-# boro_plot = ggplot(data = crime, aes(x = crime$boro_nm, y = crime$code)) +
-#   geom_bar(stat = 'identity') +
-# labs(title = 'Crimes per Borough',
-#        x = 'Borough',
-#        y = 'Crime by desc code') +
-#   scale_color_brewer(palette = 'Blues')
-# 
-# # Plot of
-# 
-# 
-# #Selecting the top 20 crimes
-# top_crimes <- crime %>%
-#   group_by(code) %>%
-#   summarise(count=n()) %>%
-#   select(crime$code) %>%
-#   top_n(20, count)
-# 
-# #Bar chart of top 20 crimes
-# top_crimes_plot = ggplot(data = top_crimes, aes(x = top_crimes$code, y = top_crimes$count)) +
-#   geom_bar(stat = 'identity') +
-#   labs(title = 'Top 20 Crimes',
-#        x = 'Offense Code',
-#        y = 'Offense Count') +
-#   scale_color_brewer(palette = 'Blues')
-
+choice <- unique(crime$ofns_desc)
 
