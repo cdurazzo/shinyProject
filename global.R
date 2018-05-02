@@ -2,7 +2,6 @@ library(shiny)
 library(shinydashboard)
 library(ggplot2)
 library(dplyr)
-library(googleVis)
 library(leaflet)
 library(data.table)
 
