@@ -4,7 +4,7 @@ library(data.table)
 sidebar <- dashboardSidebar(
   sidebarUserPanel(name = 'Chris Durazzo', image = 'https://media.licdn.com/dms/image/C5603AQHMHXmknX2EUQ/profile-displayphoto-shrink_200_200/0?e=1530392400&v=beta&t=JSoKewnQmQp-llozUjwrVTCzez5W8MY1PE3vulwRbqw'),
   sidebarMenu(
-    menuItem("Map with Choices", tabName = "dashboard", icon = icon("dashboard")),
+    menuItem("Selection Map", tabName = "dashboard", icon = icon("dashboard")),
     menuItem("Cluster Map", tabName = "clustermap", icon = icon("map-marker")),
     menuItem("Graphs", tabName = "graphs", icon = icon("delicious")),
     menuItem("Data", tabName = "dt", icon = icon("file")),
